@@ -2,7 +2,6 @@
 
 [![Python checks](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml)
 
-<p align="center"><img src="assets/banner.svg" alt="Observed events, learned subspace, and refined weights: the research pipeline" width="100%"></p>
 
 **Can shared physical structure reveal a compact representation for signed Monte Carlo weight refinement?**
 
