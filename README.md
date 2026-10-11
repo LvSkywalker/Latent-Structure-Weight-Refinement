@@ -1,16 +1,24 @@
-# Latent Structure for Weight Refinement
+# Latent Structure for Monte Carlo Weight Refinement
 
-[![Python checks](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/LvSkywalker/Latent-Structure-Weight-Refinement/tests.yml?branch=main&label=Tests)](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml)
 
+**A reproducible Python study of learned representations for signed Monte Carlo weight refinement.**
 
-**Can shared physical structure reveal a compact representation for signed Monte Carlo weight refinement?**
+Can the shared physical origin of simulated events reveal a compact latent
+representation that improves weight refinement? This project explores that
+question through density-ratio estimation, learned linear subspaces,
+kernel methods and neural networks.
 
-A small, reproducible Python research study inspired by
-[Nachman & Noll's *Stay Positive*](https://arxiv.org/abs/2505.03724).
-It combines a complete native D³-LHSS implementation with synthetic signed
-samples, validated neural comparisons and simple kernel baselines.
+Inspired by [Nachman & Noll's *Stay Positive*](https://arxiv.org/abs/2505.03724),
+the study compares five methods across 35 synthetic dataset configurations,
+with independent test events and explicit validation controls.
 
-**35 dataset cases · five seeds · independent test events · Python throughout**
+[![Full-space and reduced-space refinement at 30 observed features](results/figures/subspace_head.png)](results/report.md#exploratory-neural-head)
+
+*Exploratory synthetic comparison: a neural refiner benefits from the learned
+LHSS representation, while the LHSS + kernel pipeline has mixed results.*
+
+**[Results](results/report.md)** · **[Experimental protocol](docs/protocol.md)** · **[Validation](docs/validation.md)** · **[Notebook](examples/quickstart.ipynb)**
 
 ## Research question: from physics to latent structure
 
