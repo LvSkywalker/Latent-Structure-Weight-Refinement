@@ -25,24 +25,24 @@ def theme():
 
 
 def banner(path):
+    """Draw the research pipeline as a compact, neutral vector graphic."""
     theme()
-    fig, ax = plt.subplots(figsize=(12, 2.4))
-    fig.patch.set_facecolor('#142b3e')
-    ax.set_facecolor('#142b3e')
-    ax.set(xlim=(0, 12), ylim=(0, 2.4))
+    fig, ax = plt.subplots(figsize=(12, 1.65))
+    fig.patch.set_facecolor('#f6f8fa')
+    ax.set_facecolor('#f6f8fa')
+    ax.set(xlim=(0, 12), ylim=(0, 1.65))
     ax.axis('off')
-    ax.text(.15, 2.03, 'INDEPENDENT RESEARCH  /  SIGNED MONTE CARLO', color='#7fc6c6',
-            fontsize=9, weight='bold')
-    ax.text(.15, 1.31, 'Latent Structure for Weight Refinement', color='white', fontsize=22, weight='bold')
-    ax.text(.15, .73, 'Learn the representation. Estimate the ratio. Check the assumptions.',
-            color='#c0d0db', fontsize=11)
-    rng = np.random.default_rng(24)
-    cloud = rng.normal(size=(70, 2))
-    cloud[:, 0] = 10.9 + cloud[:, 0]*.45
-    cloud[:, 1] = 1.3 + cloud[:, 1]*.50
-    ax.scatter(*cloud.T, s=11, color='#7fc6c6', alpha=.6)
-    ax.plot([10.2, 11.5], [.5, 1.9], color='#e6b27c', linewidth=2)
-    fig.subplots_adjust(left=.025, right=.98, top=.95, bottom=.05)
+    columns = ((.45, '01', 'Observed events', 'Many measured variables'),
+               (4.45, '02', 'Learned subspace', 'Keep information for the ratio'),
+               (8.45, '03', 'Refined weights', 'Estimate R(x), then c(x)'))
+    for x, number, title, subtitle in columns:
+        ax.text(x, 1.19, number, fontsize=10, weight='bold', color='#127d8e')
+        ax.text(x, .77, title, fontsize=16, weight='bold', color='#1f2937')
+        ax.text(x, .35, subtitle, fontsize=10, color='#57606a')
+    for x in (3.72, 7.72):
+        ax.annotate('', xy=(x+.35, .81), xytext=(x-.2, .81),
+                    arrowprops={'arrowstyle': '->', 'color': '#8c959f', 'lw': 1.3})
+    fig.subplots_adjust(left=.01, right=.99, top=.98, bottom=.02)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, format=path.suffix[1:], facecolor=fig.get_facecolor())

@@ -1,0 +1,45 @@
+{
+  "context": "Installed package, local Python 3.12",
+  "dependency_check": "passed",
+  "numerical_tests_passed": 5,
+  "smoke_methods": [
+    "d3lhss",
+    "nn_full",
+    "kernel_full",
+    "covariance_kernel",
+    "nn_lhss"
+  ],
+  "case": "one_latent_direction_2000_10_11",
+  "smoke_metrics": [
+    {
+      "method": "d3lhss",
+      "c_rmse": 0.1953383542326297,
+      "r_rmse": 0.2001429687036369
+    },
+    {
+      "method": "nn_full",
+      "c_rmse": 0.179951012190908,
+      "r_rmse": 0.2132156722196652
+    },
+    {
+      "method": "kernel_full",
+      "c_rmse": 0.2715203454649912,
+      "r_rmse": 0.2340309281791275
+    },
+    {
+      "method": "covariance_kernel",
+      "c_rmse": 0.1190341778868996,
+      "r_rmse": 0.1196154065325799
+    },
+    {
+      "method": "nn_lhss",
+      "c_rmse": 0.1258433224789115,
+      "r_rmse": 0.1305610185239322
+    }
+  ],
+  "report_and_figures": "passed",
+  "workflow_output_assertions": "passed",
+  "event_overlap_audit": "passed",
+  "banner": "visually inspected",
+  "scope": "One dataset smoke run; does not rerun the complete 175-evaluation study. Remote CI status is shown by the live README badge."
+}

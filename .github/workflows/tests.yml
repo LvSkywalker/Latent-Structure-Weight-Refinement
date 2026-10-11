@@ -1,14 +1,55 @@
-name: Numerical checks
-on: [push, pull_request]
+name: Python checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
+    name: Numerical tests and five-method smoke run
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MPLCONFIGDIR: ${{ runner.temp }}/matplotlib
+      TF_CPP_MIN_LOG_LEVEL: '3'
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.12'
-      - run: python -m pip install .
-      - run: python -m unittest discover -s tests -v
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install package with neural dependencies
+        run: python -m pip install ".[neural]"
+      - name: Check dependency compatibility
+        run: python -m pip check
+      - name: Run numerical tests
+        run: python -m unittest discover -s tests -v
+      - name: Run all five methods on an independent synthetic test sample
+        run: python -m subspace_refinement.benchmark --suite smoke --output runs/ci
+      - name: Generate the report and plots
+        run: python -m subspace_refinement.report --input runs/ci/results.csv --output runs/ci/report
+      - name: Run the event-overlap audit
+        run: python -m subspace_refinement.audit
+      - name: Verify complete smoke output
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import numpy as np
+          import pandas as pd
+          from subspace_refinement.benchmark import METHODS
+          rows = pd.read_csv('runs/ci/results.csv')
+          assert len(rows) == len(METHODS)
+          assert set(rows.method) == set(METHODS)
+          assert rows.id.nunique() == 1
+          assert np.isfinite(rows[['c_rmse', 'r_rmse']].to_numpy()).all()
+          for name in ('report.md', 'summary.csv', 'figures/benchmark.png',
+                       'figures/dimension_selection.png'):
+              path = Path('runs/ci/report') / name
+              assert path.is_file() and path.stat().st_size > 0, name
+          print('All five methods and report outputs verified.')
+          PY

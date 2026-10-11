@@ -274,11 +274,11 @@
     "audit.py": "3b3da55103ab769ae010ef1d93c51941dfd1833e8a252be4032bc0d2b2c54c48",
     "__init__.py": "70b682a1f1fc271dd0d74d1fb49adb928ed8215a6aad4d158bf9a2f00588a97d",
     "lhss.py": "a8f87aa491eeb9eb26983f31b8735a6812cfac434c463d0973cead675ffd3cb2",
-    "report.py": "c343f6856000044d39199d95035615c19314d33aaed75919c807efb57807d471",
+    "report.py": "9c7184206a2b0d7fd04a82a66e6617c4689d059f6464561b59ab2527850211ba",
     "data.py": "2d5f79a195e74874d048e1860c2e4193544c6604b99c2ab8f269d63993b3338f"
   },
   "presentation_revision": {
-    "description": "Research question and project title clarified; report source changed only the banner title and font size. Experimental code and recorded outcomes unchanged.",
-    "previous_report_source_sha256": "e764630f493d68088498d937d5534c001f2fdf3b9f6aa09142ce37caaf13271b"
+    "description": "Banner replaced with a compact research-pipeline diagram; no changes to benchmark code or reported scientific outcomes.",
+    "previous_report_source_sha256": "c343f6856000044d39199d95035615c19314d33aaed75919c807efb57807d471"
   }
 }

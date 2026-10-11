@@ -1,6 +1,8 @@
-<p align="center"><img src="assets/banner.svg" alt="Latent Structure for Weight Refinement: from signed samples to a learned density ratio" width="100%"></p>
-
 # Latent Structure for Weight Refinement
+
+[![Python checks](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/LvSkywalker/Latent-Structure-Weight-Refinement/actions/workflows/tests.yml)
+
+<p align="center"><img src="assets/banner.svg" alt="Observed events, learned subspace, and refined weights: the research pipeline" width="100%"></p>
 
 **Can shared physical structure reveal a compact representation for signed Monte Carlo weight refinement?**
 
@@ -94,6 +96,16 @@ compression loses information. See the [full comparison plot](results/figures/be
 and [control results](results/report.md#radial-control).
 
 ## Run it
+
+The **Python checks** badge above links to GitHub Actions. On every push and
+pull request, the workflow installs the package with TensorFlow, runs the
+numerical tests, executes all five methods on the smoke dataset, generates
+the report and plots, and runs the event-overlap audit. It also checks that
+all expected method results and report files were produced. You can start
+it manually from **Actions → Python checks → Run workflow**.
+
+A passing check verifies this Python 3.12 smoke run and the numerical tests;
+the full 175-evaluation study is reproduced separately with the commands below.
 
 Python **3.12** is the tested environment. From the unzipped repository folder:
 
