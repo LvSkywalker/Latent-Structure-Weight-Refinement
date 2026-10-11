@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subspace-weight-refinement"
+version = "0.1.0"
+description = "A synthetic study of dimension reduction for signed Monte Carlo weight refinement"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE", "third_party/weight_refiner_LICENSE.txt", "THIRD_PARTY_NOTICES.md"]
+dependencies = ["numpy>=1.26", "scipy>=1.11", "pandas>=2.0", "matplotlib>=3.8", "threadpoolctl>=3.2"]
+
+[project.optional-dependencies]
+neural = ["tensorflow>=2.16,<2.21"]
+
+[project.scripts]
+subspace-benchmark = "subspace_refinement.benchmark:main"
+subspace-report = "subspace_refinement.report:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

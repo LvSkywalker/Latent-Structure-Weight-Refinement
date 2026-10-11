@@ -1,0 +1,8 @@
+{
+  "n_original_events": 2000,
+  "seed": 42,
+  "duplicate_then_split_shared_unique_events": 634,
+  "natural_validation_count": 400,
+  "natural_validation_seen_in_duplicate_training": 373,
+  "split_events_then_duplicate_shared_unique_events": 0
+}

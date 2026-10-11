@@ -1,0 +1,284 @@
+{
+  "protocol": "subspace-refinement-v1",
+  "suite": "full",
+  "cases": [
+    {
+      "id": "one_latent_direction_2000_1_11",
+      "n": 2000,
+      "d": 1,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_1_29",
+      "n": 2000,
+      "d": 1,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_1_47",
+      "n": 2000,
+      "d": 1,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_1_71",
+      "n": 2000,
+      "d": 1,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_1_101",
+      "n": 2000,
+      "d": 1,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_10_11",
+      "n": 2000,
+      "d": 10,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_10_29",
+      "n": 2000,
+      "d": 10,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_10_47",
+      "n": 2000,
+      "d": 10,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_10_71",
+      "n": 2000,
+      "d": 10,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_10_101",
+      "n": 2000,
+      "d": 10,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_11",
+      "n": 2000,
+      "d": 30,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_29",
+      "n": 2000,
+      "d": 30,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_47",
+      "n": 2000,
+      "d": 30,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_71",
+      "n": 2000,
+      "d": 30,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_101",
+      "n": 2000,
+      "d": 30,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_1_11",
+      "n": 8000,
+      "d": 1,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_1_29",
+      "n": 8000,
+      "d": 1,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_1_47",
+      "n": 8000,
+      "d": 1,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_1_71",
+      "n": 8000,
+      "d": 1,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_1_101",
+      "n": 8000,
+      "d": 1,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_10_11",
+      "n": 8000,
+      "d": 10,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_10_29",
+      "n": 8000,
+      "d": 10,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_10_47",
+      "n": 8000,
+      "d": 10,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_10_71",
+      "n": 8000,
+      "d": 10,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_10_101",
+      "n": 8000,
+      "d": 10,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_11",
+      "n": 8000,
+      "d": 30,
+      "seed": 11,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_29",
+      "n": 8000,
+      "d": 30,
+      "seed": 29,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_47",
+      "n": 8000,
+      "d": 30,
+      "seed": 47,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_71",
+      "n": 8000,
+      "d": 30,
+      "seed": 71,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_101",
+      "n": 8000,
+      "d": 30,
+      "seed": 101,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "all_dimensions_matter_8000_10_11",
+      "n": 8000,
+      "d": 10,
+      "seed": 11,
+      "scenario": "all_dimensions_matter"
+    },
+    {
+      "id": "all_dimensions_matter_8000_10_29",
+      "n": 8000,
+      "d": 10,
+      "seed": 29,
+      "scenario": "all_dimensions_matter"
+    },
+    {
+      "id": "all_dimensions_matter_8000_10_47",
+      "n": 8000,
+      "d": 10,
+      "seed": 47,
+      "scenario": "all_dimensions_matter"
+    },
+    {
+      "id": "all_dimensions_matter_8000_10_71",
+      "n": 8000,
+      "d": 10,
+      "seed": 71,
+      "scenario": "all_dimensions_matter"
+    },
+    {
+      "id": "all_dimensions_matter_8000_10_101",
+      "n": 8000,
+      "d": 10,
+      "seed": 101,
+      "scenario": "all_dimensions_matter"
+    }
+  ],
+  "lhss_random_state": 0,
+  "lhss_rng": "NumPy PCG64",
+  "test_events": 24000,
+  "train_fraction": 0.8,
+  "model_selection_uses_test_truth": false,
+  "configuration_sha256": "1945d33e85368c199f6b50e39c92a268bfd81abc37fe246e8f5a855b1c1e3064",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "numpy": "2.3.5",
+      "scipy": "1.18.1",
+      "pandas": "2.2.3",
+      "matplotlib": "3.11.2",
+      "threadpoolctl": "3.7.0",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1"
+    }
+  },
+  "source_sha256": {
+    "baselines.py": "e9257fb9170e3b387d4baa41efacd781ec36b589cae4f79d99838f84ba8a3882",
+    "neural.py": "80deb7959ea957d4bc33ff78b0e631c635b1841b7e26d26b84445d371208421b",
+    "benchmark.py": "13a2189792b9eaacbaa5484333c5de732ee3a7bcd8b6e19d0835f8f1bed737c5",
+    "audit.py": "3b3da55103ab769ae010ef1d93c51941dfd1833e8a252be4032bc0d2b2c54c48",
+    "__init__.py": "70b682a1f1fc271dd0d74d1fb49adb928ed8215a6aad4d158bf9a2f00588a97d",
+    "lhss.py": "a8f87aa491eeb9eb26983f31b8735a6812cfac434c463d0973cead675ffd3cb2",
+    "report.py": "c343f6856000044d39199d95035615c19314d33aaed75919c807efb57807d471",
+    "data.py": "2d5f79a195e74874d048e1860c2e4193544c6604b99c2ab8f269d63993b3338f"
+  },
+  "presentation_revision": {
+    "description": "Research question and project title clarified; report source changed only the banner title and font size. Experimental code and recorded outcomes unchanged.",
+    "previous_report_source_sha256": "e764630f493d68088498d937d5534c001f2fdf3b9f6aa09142ce37caaf13271b"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "dataset_cases": 35,
+  "method_evaluations": 175,
+  "dimension_score_rows": 460,
+  "numerical_unit_tests": {
+    "count": 5,
+    "status": "passed",
+    "contexts": [
+      "source package",
+      "installed package from a separate temporary directory"
+    ]
+  },
+  "clean_installation_smoke": {
+    "status": "passed",
+    "case": "one_latent_direction_2000_10_11",
+    "method": "d3lhss",
+    "c_rmse_difference": 0.0
+  },
+  "generator_input_parity": {
+    "cases": 35,
+    "status": "exact match"
+  },
+  "neural_training_refactor_parity": {
+    "cases": 35,
+    "max_abs_c_rmse_difference": 0.0
+  },
+  "matched_choice_matlab_parity": {
+    "cases": 4,
+    "max_abs_ratio_difference": 6.306066779870889e-14
+  },
+  "plot_review": "Three scientific figures and banner visually inspected.",
+  "notebook": "All code cells executed; outputs retained.",
+  "upstream_source_and_reference_arrays_included": false,
+  "remote_github_ci_executed": false
+}
