@@ -13,8 +13,6 @@ Inspired by [Nachman & Noll's *Stay Positive*](https://arxiv.org/abs/2505.03724)
 the study compares five methods across 35 synthetic dataset configurations,
 with independent test events and explicit validation controls.
 
-[![Full-space and reduced-space refinement at 30 observed features](results/figures/subspace_head.png)](results/report.md#exploratory-neural-head)
-
 *Exploratory synthetic comparison: a neural refiner benefits from the learned
 LHSS representation, while the LHSS + kernel pipeline has mixed results.*
 
