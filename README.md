@@ -9,9 +9,9 @@ representation that improves weight refinement? This project explores that
 question through density-ratio estimation, learned linear subspaces,
 kernel methods and neural networks.
 
-Inspired by [Nachman & Noll's *Stay Positive*](https://arxiv.org/abs/2505.03724),
-the study compares five methods across 35 synthetic dataset configurations,
-with independent test events and explicit validation controls.
+Motivated by the negative-weight problem in Monte Carlo simulations relevant to **LHC physics**, this independent Python study builds on [Nachman & Noll’s *Stay Positive*](https://arxiv.org/abs/2505.03724).
+
+It compares **five methods across 35 synthetic dataset configurations**, with independent test events and explicit validation controls. A separate confirmation evaluates the reduced-input neural refiner on **five fresh dataset seeds at two sample sizes**.
 
 *Main finding: with 30 observed features, a neural refiner trained on the learned
 LHSS subspace has lower test error than the same network on all features. The
