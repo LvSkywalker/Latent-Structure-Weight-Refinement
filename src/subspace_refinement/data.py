@@ -9,6 +9,9 @@ import math
 import numpy as np
 
 SEEDS = (11, 29, 47, 71, 101)
+# Fresh seeds, never used during method development, for the confirmatory run
+# of the reduced-input neural comparison at 30 observed features.
+CONFIRM_SEEDS = (131, 157, 173, 191, 211)
 
 
 def sample(n, d, seed, radial=False):
@@ -85,9 +88,13 @@ def cases(suite='full'):
     configs += [(8000, 10, 'all_dimensions_matter')]
     result = [dict(id=f'{scenario}_{n}_{d}_{seed}', n=n, d=d, seed=seed, scenario=scenario)
               for n, d, scenario in configs for seed in SEEDS]
+    if suite == 'confirm':
+        return [dict(id=f'one_latent_direction_{n}_30_{seed}', n=n, d=30, seed=seed,
+                     scenario='one_latent_direction')
+                for n in (2000, 8000) for seed in CONFIRM_SEEDS]
     if suite == 'smoke':
         return [case for case in result if case['id'] == 'one_latent_direction_2000_10_11']
     if suite != 'full':
-        raise ValueError('suite must be smoke or full.')
+        raise ValueError('suite must be smoke, full or confirm.')
     return result
 

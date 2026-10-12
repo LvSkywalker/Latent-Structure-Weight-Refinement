@@ -34,7 +34,8 @@ def metrics(prediction, data):
 
 def environment():
     packages = {}
-    for name in ('numpy', 'scipy', 'pandas', 'matplotlib', 'threadpoolctl', 'tensorflow', 'keras'):
+    for name in ('numpy', 'scipy', 'pandas', 'matplotlib', 'threadpoolctl',
+                 'tensorflow', 'tensorflow-cpu', 'tensorflow-macos', 'keras'):
         try:
             packages[name] = version(name)
         except PackageNotFoundError:
@@ -131,7 +132,7 @@ def initialize_run(directory, suite):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--suite', choices=['smoke', 'full'], default='smoke')
+    parser.add_argument('--suite', choices=['smoke', 'full', 'confirm'], default='smoke')
     parser.add_argument('--methods', nargs='+', choices=METHODS, default=list(METHODS))
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()

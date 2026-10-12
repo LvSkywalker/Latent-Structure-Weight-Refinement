@@ -1,0 +1,106 @@
+{
+  "protocol": "subspace-refinement-v1",
+  "suite": "confirm",
+  "cases": [
+    {
+      "id": "one_latent_direction_2000_30_131",
+      "n": 2000,
+      "d": 30,
+      "seed": 131,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_157",
+      "n": 2000,
+      "d": 30,
+      "seed": 157,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_173",
+      "n": 2000,
+      "d": 30,
+      "seed": 173,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_191",
+      "n": 2000,
+      "d": 30,
+      "seed": 191,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_2000_30_211",
+      "n": 2000,
+      "d": 30,
+      "seed": 211,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_131",
+      "n": 8000,
+      "d": 30,
+      "seed": 131,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_157",
+      "n": 8000,
+      "d": 30,
+      "seed": 157,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_173",
+      "n": 8000,
+      "d": 30,
+      "seed": 173,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_191",
+      "n": 8000,
+      "d": 30,
+      "seed": 191,
+      "scenario": "one_latent_direction"
+    },
+    {
+      "id": "one_latent_direction_8000_30_211",
+      "n": 8000,
+      "d": 30,
+      "seed": 211,
+      "scenario": "one_latent_direction"
+    }
+  ],
+  "lhss_random_state": 0,
+  "lhss_rng": "NumPy PCG64",
+  "test_events": 24000,
+  "train_fraction": 0.8,
+  "model_selection_uses_test_truth": false,
+  "configuration_sha256": "be4e862dabc934434124d77bd92bb4f7e4c2167c3deca7aaeaaf486a2c921663",
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+    "packages": {
+      "keras": "3.15.1",
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "tensorflow-cpu": "2.20.0",
+      "threadpoolctl": "3.7.0"
+    }
+  },
+  "source_sha256": {
+    "benchmark.py": "80d3b53e83de1934c534d22c3c927bbed7e75cdeec6f439620eb7e761bb9b55b",
+    "report.py": "9c7184206a2b0d7fd04a82a66e6617c4689d059f6464561b59ab2527850211ba",
+    "lhss.py": "a8f87aa491eeb9eb26983f31b8735a6812cfac434c463d0973cead675ffd3cb2",
+    "__init__.py": "70b682a1f1fc271dd0d74d1fb49adb928ed8215a6aad4d158bf9a2f00588a97d",
+    "data.py": "9c7355f3d877d85e6cff912b99b70a52896fe4d5f6e9beecbe2a3939ce58ead1",
+    "neural.py": "80deb7959ea957d4bc33ff78b0e631c635b1841b7e26d26b84445d371208421b",
+    "baselines.py": "e9257fb9170e3b387d4baa41efacd781ec36b589cae4f79d99838f84ba8a3882",
+    "audit.py": "3b3da55103ab769ae010ef1d93c51941dfd1833e8a252be4032bc0d2b2c54c48"
+  },
+  "environment_note": "TensorFlow was installed as the tensorflow-cpu 2.20.0 distribution. The recorder at run time only looked up the 'tensorflow' distribution name, so this entry was missing; it was added afterwards from the same, unchanged virtual environment that produced these results. This environment differs from the one of the original 35-case study (results/run.json)."
+}

@@ -34,11 +34,10 @@ implemented; it does not differentiate through coefficient clipping.
 
 ## Generator and neural protocol
 
-Every regenerated training, validation and independent-test matrix was
-compared to the corresponding input from the preceding local study: all
-35 cases match exactly. The packaged neural training loop reproduces the
-preceding Python loop's independent c-RMSE exactly on all 35 cases in the
-tested environment. The final release includes fresh native evaluations.
+The generator follows the upstream `weight_refiner` Gaussian setup exactly
+for the shared one-dimensional configuration. Every training, validation and
+independent-test matrix is regenerated deterministically from its dataset seed,
+so all 35 cases are reproducible from the command line.
 
 ## Event overlap in the inspected reweighter
 

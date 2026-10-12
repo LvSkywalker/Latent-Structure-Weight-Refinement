@@ -1,4 +1,6 @@
-# Exact direct versions used for the distributed results: Python 3.12.14.
+# Exact direct versions used for the original 35-case results in results/
+# (results/run.json): Python 3.12.14, macOS arm64. The fresh-seed confirmation
+# run used a different environment: see requirements-confirm.txt.
 # For a flexible/lighter installation use the pyproject dependencies instead.
 numpy==2.3.5
 scipy==1.18.1

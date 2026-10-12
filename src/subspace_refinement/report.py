@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from .data import cases
 
 STYLE = {
     'd3lhss': ('D³-LHSS', '#127d8e', '-'),
@@ -135,7 +136,7 @@ def plots(rows, directory):
                    yerr=stats['std'].fillna(0), capsize=3, color=STYLE[method][1], label=STYLE[method][0])
         ax.set_xticks(range(len(ns)), [f'{n:,} events' for n in ns])
         ax.set_ylabel('Independent test RMSE of c')
-        ax.set_title('Exploratory: neural refinement after LHSS (30 features)')
+        ax.set_title('Neural refinement after LHSS (30 features)')
         ax.legend(frameon=False, loc='upper center', bbox_to_anchor=(.5, -.1), ncol=1, fontsize=9)
         ax.grid(axis='y', color='#e6e9ee')
         ax.set_axisbelow(True)
@@ -173,13 +174,12 @@ def report(rows, output):
     dimension_image = ('![Dimension selection](figures/dimension_selection.png)'
                        if (output/'figures/dimension_selection.png').exists()
                        else 'No LHSS dimension-selection results were included in this run.')
-    diagnostic_image = ('![Exploratory subspace head](figures/subspace_head.png)'
+    diagnostic_image = ('![Neural refiner on the LHSS subspace](figures/subspace_head.png)'
                         if (output/'figures/subspace_head.png').exists()
                         else 'The neural-subspace diagnostic was not included in this run.')
     text = f'''# Native Python results
 
-{rows.id.nunique()} dataset cases; {len(rows)} method evaluations. These are
-native Python results, separate from the preceding MATLAB experiments.
+{rows.id.nunique()} dataset cases; {len(rows)} method evaluations.
 All development and test samples are synthetic. Test truth is not used for
 selection. Tables show mean ± sample standard deviation over dataset seeds;
 the per-case CSV records every evaluation and its selected settings.
@@ -205,17 +205,18 @@ The true sufficient linear dimension is one in the main setting and ten in
 the radial control. Choosing k>1 in the main setting can preserve the ratio;
 the independent error, rather than k alone, determines whether it generalized.
 
-## Exploratory neural head
+## Neural refiner on the learned subspace
 
 {diagnostic_table}
 
 {diagnostic_image}
 
 The learned subspace and selected k are frozen. Only the final estimator is
-changed and selected on the external event holdout. This diagnostic was
-motivated by earlier results and reuses the test sets; it is exploratory.
-It can support a representation benefit without demonstrating a unique
-advantage of kernel estimation.
+changed and selected on the external event holdout. This comparison was
+designed after the first runs and reuses these test sets, so it was repeated
+on fresh dataset seeds: see `results/confirm/report.md`. It supports a
+representation benefit without demonstrating a unique advantage of kernel
+estimation.
 
 ## Radial control
 
@@ -250,11 +251,123 @@ See the repository's `docs/protocol.md` and `docs/validation.md` for full detail
     return main_table
 
 
+CONFIRM_METHODS = ('d3lhss', 'nn_lhss', 'nn_full', 'covariance_kernel')
+CONFIRM_OPTIONAL = ('kernel_full',)
+CONFIRM_COLUMNS = ('id', 'n', 'd', 'seed', 'scenario', 'method', 'c_rmse')
+
+
+def validate_confirm(rows):
+    """Check that rows are exactly one complete confirm-suite run; raise ValueError otherwise."""
+    missing = [c for c in CONFIRM_COLUMNS if c not in rows.columns]
+    if missing:
+        raise ValueError(f'Confirm results lack required columns: {", ".join(missing)}.')
+    if rows.empty:
+        raise ValueError('Confirm results are empty.')
+    duplicated = rows[rows.duplicated(['id', 'method'], keep=False)]
+    if not duplicated.empty:
+        pairs = sorted(set(zip(duplicated.id, duplicated.method)))
+        raise ValueError(f'Duplicate case/method rows in confirm results: {pairs[:3]}.')
+    expected = {case['id']: case for case in cases('confirm')}
+    unknown = sorted(set(rows.id) - set(expected))
+    if unknown:
+        raise ValueError(f'Rows do not belong to the confirm suite: {unknown[:3]}.')
+    absent = sorted(set(expected) - set(rows.id))
+    if absent:
+        raise ValueError(f'Confirm results are incomplete; missing cases: {absent[:3]} '
+                         f'({len(absent)} of {len(expected)}).')
+    for row in rows.itertuples(index=False):
+        case = expected[row.id]
+        for key in ('n', 'd', 'seed', 'scenario'):
+            if getattr(row, key) != case[key]:
+                raise ValueError(f'Case {row.id} has {key}={getattr(row, key)!r}, '
+                                 f'expected {case[key]!r}.')
+    allowed = set(CONFIRM_METHODS) | set(CONFIRM_OPTIONAL)
+    extra = sorted(set(rows.method) - allowed)
+    if extra:
+        raise ValueError(f'Unexpected methods in confirm results: {extra}.')
+    for case_id in expected:
+        present = set(rows.loc[rows.id == case_id, 'method'])
+        lacking = [m for m in CONFIRM_METHODS if m not in present]
+        if lacking:
+            raise ValueError(f'Case {case_id} lacks confirm methods: {lacking}.')
+    values = pd.to_numeric(rows.c_rmse, errors='coerce').to_numpy(dtype=float)
+    if not np.isfinite(values).all() or (values < 0).any():
+        raise ValueError('c_rmse values must be finite and non-negative.')
+    full = rows.loc[rows.method == 'nn_full', 'c_rmse'].astype(float)
+    if not (full > 0).all():
+        raise ValueError('nn_full c_rmse must be strictly positive for relative comparisons.')
+
+
+def confirm_report(rows, output, source=None):
+    """Summarize the fresh-seed run of the reduced-input neural comparison.
+
+    All checks run before anything is written. The validated rows, including any
+    optional kernel_full results, are copied to output unless that is the source.
+    """
+    validate_confirm(rows)
+    validated = rows
+    rows = rows[rows.method.isin(CONFIRM_METHODS)]
+    methods = ['nn_full', 'nn_lhss', 'd3lhss', 'covariance_kernel']
+    table = '| Events | ' + ' | '.join(STYLE[m][0] for m in methods) + ' |\n|---:|' + '---:|'*len(methods) + '\n'
+    paired = ('| Events | Seeds where LHSS subspace < all features | Mean relative change |\n'
+              '|---:|---:|---:|\n')
+    for n, part in rows.groupby('n'):
+        cells = []
+        for m in methods:
+            v = part[part.method == m].c_rmse
+            cells.append(f'{v.mean():.3f} ± {v.std(ddof=1):.3f}')
+        table += f'| {n:,} | ' + ' | '.join(cells) + ' |\n'
+        full = part[part.method == 'nn_full'].set_index('seed').c_rmse
+        sub = part[part.method == 'nn_lhss'].set_index('seed').c_rmse.reindex(full.index)
+        wins = int((sub < full).sum())
+        change = float((sub/full - 1).mean())
+        paired += f'| {n:,} | {wins} of {len(full)} | {100*change:+.0f}% |\n'
+    seeds = ', '.join(str(s) for s in sorted(rows.seed.unique()))
+    text = f'''# Confirmatory run on fresh seeds
+
+The reduced-input neural comparison at 30 observed features was repeated on
+five dataset seeds never used during development ({seeds}). Each seed was
+evaluated at two sample sizes, 2,000 and 8,000 events, with new training,
+validation and independent test samples and the unchanged protocol. The two
+sample sizes share the seed and are not independent replications. Values are
+independent-test c-RMSE, mean ± standard deviation over the five seeds;
+lower is better.
+
+{table}
+Paired comparison of the two neural refiners (same architecture, same
+training protocol, different input representation):
+
+{paired}
+This run is separate from the original 35-case study in `results/report.md`.
+Its software environment differs from the original one and is recorded in
+`run.json` and `requirements-confirm.txt`.
+
+Reproduce with:
+
+```sh
+python -m subspace_refinement.benchmark --suite confirm --methods d3lhss nn_lhss nn_full covariance_kernel --output runs/confirm
+python -m subspace_refinement.report --confirm runs/confirm/results.csv --output runs/confirm
+```
+'''
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    (output/'report.md').write_text(text)
+    target = output/'results.csv'
+    if source is None or Path(source).resolve() != target.resolve():
+        validated.to_csv(target, index=False)
+    return table + '\n' + paired
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input', type=Path, default=Path('results/results.csv'))
     parser.add_argument('--output', type=Path, default=Path('runs/report'))
+    parser.add_argument('--confirm', type=Path, help='results.csv of the fresh-seed confirm suite')
     args = parser.parse_args()
+    if args.confirm:
+        print(confirm_report(pd.read_csv(args.confirm), args.output, source=args.confirm))
+        print(f'Report: {args.output/"report.md"}')
+        return
     args.output.mkdir(parents=True, exist_ok=True)
     print(report(pd.read_csv(args.input), args.output))
     print(f'Report: {args.output/"report.md"}')

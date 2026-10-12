@@ -1,7 +1,6 @@
 # Native Python results
 
-35 dataset cases; 175 method evaluations. These are
-native Python results, separate from the preceding MATLAB experiments.
+35 dataset cases; 175 method evaluations.
 All development and test samples are synthetic. Test truth is not used for
 selection. Tables show mean ± sample standard deviation over dataset seeds;
 the per-case CSV records every evaluation and its selected settings.
@@ -44,7 +43,7 @@ The true sufficient linear dimension is one in the main setting and ten in
 the radial control. Choosing k>1 in the main setting can preserve the ratio;
 the independent error, rather than k alone, determines whether it generalized.
 
-## Exploratory neural head
+## Neural refiner on the learned subspace
 
 | Method, 30 observed features | 2,000 events | 8,000 events |
 |---|---:|---:|
@@ -53,13 +52,14 @@ the independent error, rather than k alone, determines whether it generalized.
 | Neural refiner on LHSS subspace | 0.205 ± 0.015 | 0.120 ± 0.014 |
 
 
-![Exploratory subspace head](figures/subspace_head.png)
+![Neural refiner on the LHSS subspace](figures/subspace_head.png)
 
 The learned subspace and selected k are frozen. Only the final estimator is
-changed and selected on the external event holdout. This diagnostic was
-motivated by earlier results and reuses the test sets; it is exploratory.
-It can support a representation benefit without demonstrating a unique
-advantage of kernel estimation.
+changed and selected on the external event holdout. This comparison was
+designed after the first runs and reuses these test sets, so it was repeated
+on fresh dataset seeds: see `results/confirm/report.md`. It supports a
+representation benefit without demonstrating a unique advantage of kernel
+estimation.
 
 ## Radial control
 

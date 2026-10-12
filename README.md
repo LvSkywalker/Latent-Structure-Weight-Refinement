@@ -13,8 +13,11 @@ Inspired by [Nachman & Noll's *Stay Positive*](https://arxiv.org/abs/2505.03724)
 the study compares five methods across 35 synthetic dataset configurations,
 with independent test events and explicit validation controls.
 
-*Exploratory synthetic comparison: a neural refiner benefits from the learned
-LHSS representation, while the LHSS + kernel pipeline has mixed results.*
+*Main finding: with 30 observed features, a neural refiner trained on the learned
+LHSS subspace has lower test error than the same network on all features. The
+comparison was then repeated on five fresh dataset seeds, each evaluated at
+2,000 and 8,000 events: the reduced-input network was better for every seed
+at both sample sizes.*
 
 **[Results](results/report.md)** · **[Experimental protocol](docs/protocol.md)** · **[Validation](docs/validation.md)** · **[Notebook](examples/quickstart.ipynb)**
 
@@ -52,16 +55,33 @@ sufficient representation in collider data remains future work.
   MATLAB reference on four local examples.
 - Explicit event-level validation, per-replica results and a radial control
   that challenges aggressive linear compression.
+- A separate confirmation of the main comparison on five fresh dataset seeds.
+- An event-level audit of the reference reweighter's data preparation, showing
+  how duplicating events before a random split can put copies of the same event
+  in both training and validation ([details](docs/validation.md#event-overlap-in-the-inspected-reweighter)).
 
 ## Results at a glance
 
 <!-- RESULTS:START -->
-**A learned subspace can help the neural refiner in this synthetic setting.**
+**A learned subspace helps the neural refiner in this synthetic setting.**
 At 30 observed features, fitting the neural refiner on the frozen LHSS
 subspace gives approximately **29% and 33% lower mean test error** than
 fitting it on all features, with 2,000 and 8,000 events respectively.
-This comparison is **exploratory**, motivated during the study and evaluated
-on the existing test sets; it needs confirmation on fresh experiments.
+These numbers come from the original study, where this comparison was designed
+after the first runs and evaluated on the existing test sets. It was therefore
+repeated as a separate confirmation on **five fresh dataset seeds**, each
+evaluated at 2,000 and 8,000 events with new training and test samples and the
+same protocol. The two sample sizes share the seed, so they are not independent
+replications:
+
+| Confirmation, 30 features | Neural: all features | Neural: LHSS subspace | Seeds improved | Mean change |
+|---:|---:|---:|---:|---:|
+| 2,000 events | 0.298 ± 0.016 | **0.211 ± 0.014** | 5 of 5 | −29% |
+| 8,000 events | 0.177 ± 0.013 | **0.095 ± 0.009** | 5 of 5 | −46% |
+
+[Confirmation report](results/confirm/report.md). It used a different software
+environment from the original study ([original](requirements-reproduce.txt),
+[confirmation](requirements-confirm.txt)).
 
 The table separates the representation from the final estimator. Both neural
 columns use the same architecture and training protocol, with different
@@ -69,7 +89,7 @@ input representations. D³-LHSS + kernel changes the final estimator as well.
 Values are independent-test c-RMSE, **mean ± standard deviation over five
 dataset seeds; lower is better**.
 
-| Events | Features | Neural: all features | Neural: LHSS subspace (exploratory) | D³-LHSS + kernel | Covariance + kernel |
+| Events | Features | Neural: all features | Neural: LHSS subspace | D³-LHSS + kernel | Covariance + kernel |
 |---:|---:|---:|---:|---:|---:|
 | 2,000 | 10 | 0.171 ± 0.017 | **0.112 ± 0.014** | 0.126 ± 0.043 | 0.110 ± 0.026 |
 | 2,000 | 30 | 0.288 ± 0.006 | **0.205 ± 0.015** | 0.347 ± 0.017 | 0.166 ± 0.011 |
@@ -87,14 +107,17 @@ suggesting that representation learning and ratio estimation deserve
 separate investigation. These results do not show that kernels are generally
 better than neural networks, or that dimensionality reduction always helps.
 
-These headline results all come from the native Python suite. Historical
-MATLAB benchmarks are kept separate. [Full results and controls](results/report.md).
+[Full results and controls](results/report.md).
 <!-- RESULTS:END -->
 
-![Exploratory comparison at 30 features: full-space neural, LHSS plus kernel, and neural on the learned LHSS subspace](results/figures/subspace_head.png)
+![Comparison at 30 features: full-space neural, LHSS plus kernel, and neural on the learned LHSS subspace](results/figures/subspace_head.png)
 
-The simple covariance baseline is especially well matched to this Gaussian
-construction. A lower error in this benchmark does not establish general
+The covariance + kernel baseline has the lowest error at 30 features, in the
+original and in the confirmation runs. The covariance baseline estimates its
+direction from training data, with its dimension fixed to one. This choice is
+especially well matched to the rank-one covariance shift in this benchmark,
+whereas LHSS also selects the subspace dimension. Performance on other
+distribution families requires separate evaluation. A lower error in this benchmark does not establish general
 kernel superiority or improved performance on physical event samples.
 In the radial control, where every linear direction matters, aggressive
 compression loses information. See the [full comparison plot](results/figures/benchmark.png)
@@ -138,9 +161,18 @@ python -m subspace_refinement.report --input runs/full/results.csv --output runs
 python -m unittest discover -s tests -v
 ```
 
+To repeat the confirmatory comparison on the fresh seeds:
+
+```sh
+python -m subspace_refinement.benchmark --suite confirm --methods d3lhss nn_lhss nn_full covariance_kernel --output runs/confirm
+python -m subspace_refinement.report --confirm runs/confirm/results.csv --output runs/confirm
+```
+
 The full suite is substantially slower than the smoke example; runs resume
 from completed case/method pairs. Use a new output directory for a fresh run.
-[Exact tested versions](requirements-reproduce.txt) are provided separately.
+Exact versions used for the original results are in
+[`requirements-reproduce.txt`](requirements-reproduce.txt); the confirmation
+run used [`requirements-confirm.txt`](requirements-confirm.txt).
 
 ## Explore the study
 

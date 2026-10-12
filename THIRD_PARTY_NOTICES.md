@@ -38,8 +38,7 @@ arrays, are retained in `results/validation/`.
 
 ## Scope
 
-All distributed event samples and model centers are synthetic. No CERN event
-files or institutional logos are included. This is an independent research
-exercise, with no claimed institutional affiliation. The repository's MIT
-license covers its distributed implementation and accompanying original
+All event samples and model centers are synthetic. This is an independent
+study, not affiliated with or endorsed by the authors of the works above.
+The repository's MIT license covers its distributed implementation and accompanying original
 material; it does not relicense separately obtained reference software.

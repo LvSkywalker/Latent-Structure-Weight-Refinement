@@ -6,6 +6,8 @@ import numpy as np
 from subspace_refinement import D3LHSS
 from subspace_refinement.data import cases, dataset, split_indices, truth
 from subspace_refinement.lhss import gaussian_kernel, pearson_gradient
+from subspace_refinement.report import CONFIRM_METHODS, confirm_report, validate_confirm
+import pandas as pd
 
 
 class TestNumerics(unittest.TestCase):
@@ -54,6 +56,13 @@ class TestNumerics(unittest.TestCase):
             model.save(path)
             np.testing.assert_array_equal(before, D3LHSS.load(path).predict_ratio(p))
 
+    def test_confirm_seeds_are_fresh(self):
+        development = {case['seed'] for case in cases('full')}
+        confirm = cases('confirm')
+        self.assertEqual(len(confirm), 10)
+        self.assertTrue(all(case['d'] == 30 for case in confirm))
+        self.assertFalse(development & {case['seed'] for case in confirm})
+
     def test_invalid_samples(self):
         with self.assertRaises(ValueError):
             D3LHSS().fit(np.ones((5, 2)), np.ones((5, 3)))
@@ -65,3 +74,74 @@ class TestNumerics(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def confirm_rows(extra=()):
+    rows = []
+    for case in cases('confirm'):
+        for i, method in enumerate(tuple(CONFIRM_METHODS) + tuple(extra)):
+            rows.append({**case, 'method': method, 'c_rmse': .1 + .01*i + case['seed']/1e4})
+    return pd.DataFrame(rows)
+
+
+class TestConfirmReport(unittest.TestCase):
+    def assert_rejected(self, rows, fragment):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory)/'out'
+            with self.assertRaisesRegex(ValueError, fragment):
+                confirm_report(rows, target)
+            self.assertFalse(target.exists(), 'Nothing must be written for invalid input.')
+
+    def test_valid_input_and_optional_kernel_full(self):
+        rows = confirm_rows(extra=('kernel_full',))
+        with tempfile.TemporaryDirectory() as directory:
+            text = confirm_report(rows, Path(directory))
+            self.assertIn('5 of 5', text)
+            self.assertTrue((Path(directory)/'report.md').is_file())
+            saved = pd.read_csv(Path(directory)/'results.csv')
+            self.assertEqual(len(saved), len(rows))
+
+    def test_rejects_missing_column(self):
+        self.assert_rejected(confirm_rows().drop(columns='seed'), 'required columns')
+
+    def test_rejects_incomplete_cases(self):
+        rows = confirm_rows()
+        self.assert_rejected(rows[rows.seed != 211], 'incomplete')
+
+    def test_rejects_missing_method(self):
+        rows = confirm_rows()
+        drop = (rows.method == 'nn_lhss') & (rows.seed == 131) & (rows.n == 2000)
+        self.assert_rejected(rows[~drop], 'lacks confirm methods')
+
+    def test_rejects_duplicates(self):
+        rows = confirm_rows()
+        self.assert_rejected(pd.concat([rows, rows.iloc[[0]]]), 'Duplicate')
+
+    def test_rejects_non_finite_and_negative(self):
+        rows = confirm_rows()
+        rows.loc[0, 'c_rmse'] = np.nan
+        self.assert_rejected(rows, 'finite')
+        rows = confirm_rows()
+        rows.loc[0, 'c_rmse'] = -.1
+        self.assert_rejected(rows, 'non-negative')
+
+    def test_rejects_zero_denominator(self):
+        rows = confirm_rows()
+        rows.loc[rows.method == 'nn_full', 'c_rmse'] = 0.
+        self.assert_rejected(rows, 'strictly positive')
+
+    def test_rejects_wrong_cases(self):
+        rows = confirm_rows()
+        rows.loc[0, 'd'] = 10
+        self.assert_rejected(rows, 'expected')
+        other_suite = pd.DataFrame([{**case, 'method': m, 'c_rmse': .1}
+                                    for case in cases('full')[:2] for m in CONFIRM_METHODS])
+        self.assert_rejected(other_suite, 'confirm suite')
+
+    def test_rejects_unknown_method(self):
+        self.assert_rejected(confirm_rows(extra=('other',)), 'Unexpected methods')
+
+    def test_saved_confirm_results_are_valid(self):
+        saved = Path(__file__).resolve().parents[1]/'results'/'confirm'/'results.csv'
+        if saved.exists():
+            validate_confirm(pd.read_csv(saved))

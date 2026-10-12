@@ -130,9 +130,11 @@ weights. Report means and sample standard deviations over the five dataset
 seeds; these error bars are not confidence intervals. Model RNG seed zero
 is held fixed, so this does not quantify variation over optimizer seeds.
 
-The `nn_lhss` head is an exploratory diagnostic motivated by earlier MATLAB
-and pilot results. It shares the existing test sets and is not a confirmatory
-experiment on fresh data. A lower error here cannot establish kernel
+The `nn_lhss` head was designed after the first runs and, in the main suite,
+shares the existing test sets. It was therefore repeated, as a separate
+confirmation, on five fresh dataset seeds, each evaluated at 2,000 and 8,000
+events (`--suite confirm`, results in `results/confirm/`). The two sample sizes
+share the seed and are not independent replications. A lower error here cannot establish kernel
 superiority; the comparison helps assess representation versus final estimator.
 
 Internal CV scores can be optimistic because the projection is optimized

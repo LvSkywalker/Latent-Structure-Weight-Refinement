@@ -93,14 +93,14 @@
     "all_dimensions_matter_8000_10_101.npz": "b5c8cf5c1023f493e1d5c803735add42827c088c42d465902a56cb0750dbb693"
   },
   "generator_input_parity_cases": 35,
-  "generator_input_parity": "Training, validation, test coordinates and exact c match the preceding benchmark inputs exactly.",
+  "generator_input_parity": "Training, validation and test coordinates and exact c are regenerated deterministically from each dataset seed.",
   "neural_refactor_parity_cases": 35,
   "neural_refactor_max_abs_c_rmse_difference": 0.0,
   "lhss_model_import_max_abs_c_rmse_difference": 0.0,
   "matlab_numerical_parity_cases": 4,
   "matlab_parity_note": "Matching random choices and bases, separate local fixtures; see validation/matlab_parity.json. No MATLAB source or reference arrays are distributed.",
   "full_space_fits": "All 35 neural and both kernel baselines were rerun using the packaged Python functions.",
-  "neural_subspace_fits": "35 exploratory refits; native learned projections frozen, test sets reused.",
+  "neural_subspace_fits": "35 refits on frozen learned projections; main-suite test sets reused, repeated on fresh seeds in results/confirm/.",
   "environment": {
     "python": "3.12.14",
     "platform": "macOS-26.6.2-arm64-arm-64bit",
